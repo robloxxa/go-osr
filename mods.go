@@ -25,6 +25,7 @@ type BanchoMod struct {
 	Long  string
 }
 
+// ParseBitFlags parses an osu! mods bit values and return an BanchoMod slice
 func ParseBitFlags(bits uint32) (mods []BanchoMod) {
 	if bits == 0 {
 		return
@@ -37,6 +38,7 @@ func ParseBitFlags(bits uint32) (mods []BanchoMod) {
 	return
 }
 
+// ReturnBitFlags iterate through BanchoMod slice and returns a bit value
 func ReturnBitFlags(mods []BanchoMod) (i uint32) {
 	for _, mod := range mods {
 		i += mod.Value

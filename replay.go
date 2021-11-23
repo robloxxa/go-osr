@@ -57,6 +57,7 @@ type KeyPressed struct {
 	Smoke      bool
 }
 
+// NewReplay returns an empty Replay struct with TimeStamp
 func NewReplay() (r *Replay) {
 	r = &Replay{
 		TimeStamp: time.Now(),
@@ -64,6 +65,7 @@ func NewReplay() (r *Replay) {
 	return
 }
 
+// NewReplayFromFile reads a replay file, parses it and returns a Replay pointer
 func NewReplayFromFile(path string) (r *Replay, err error) {
 	r = &Replay{}
 	file, err := os.ReadFile(path)
@@ -77,6 +79,7 @@ func NewReplayFromFile(path string) (r *Replay, err error) {
 	return
 }
 
+// Formats Replay struct to string
 func (r *Replay) String() (s string) {
 	s = fmt.Sprintf(
 		"Gamemode: %s\n"+
@@ -96,6 +99,7 @@ func (r *Replay) String() (s string) {
 			"Perfect Combo: %t\n"+
 			"TimeStamp: %s\n"+
 			"LifeBarGraph: %s\n"+
+			"ReplayData Lenght: %d\n"+
 			"OnlineScoreID: %d\n",
 		ParseGamemode(r.Gamemode),
 		r.Version,
@@ -114,11 +118,13 @@ func (r *Replay) String() (s string) {
 		r.PerfectCombo,
 		r.TimeStamp,
 		r.LifeBarGraph,
+		len(r.ReplayData),
 		r.OnlineScoreID,
 	)
 	return
 }
 
+// Marshal encodes Replay struct to byte slice
 func (r *Replay) Marshal() (b []byte, err error) {
 	buf := bytes.NewBuffer([]byte{})
 
@@ -228,6 +234,7 @@ func (r *Replay) Marshal() (b []byte, err error) {
 	return
 }
 
+// Unmarshal decode byte array to Replay struct
 func (r *Replay) Unmarshal(data []byte) (err error) {
 	var ticks int64
 	b := bytes.NewBuffer(data)
@@ -318,6 +325,7 @@ func (r *Replay) Unmarshal(data []byte) (err error) {
 	return
 }
 
+// WriteToFile writes a replay file to specified path
 func (r *Replay) WriteToFile(path string) (err error) {
 	data, err := r.Marshal()
 	if err != nil {
@@ -330,6 +338,7 @@ func (r *Replay) WriteToFile(path string) (err error) {
 	return
 }
 
+// Decompress a ReplayData to DecompressedReplay slice
 func (cr *CompressedReplay) Decompress() (dr DecompressedReplay, err error) {
 	buf := bytes.NewBuffer(*cr)
 	reader := lzma.NewReader(buf)
@@ -384,6 +393,7 @@ func (cr *CompressedReplay) Decompress() (dr DecompressedReplay, err error) {
 	return
 }
 
+// Compress a DecompressedReplay slice to CompressedReplay byte slice
 func (dr *DecompressedReplay) Compress() (cr CompressedReplay) {
 	b := bytes.NewBuffer(cr)
 	writer := lzma.NewWriter(b)
