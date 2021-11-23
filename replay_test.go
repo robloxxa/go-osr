@@ -5,7 +5,7 @@ import (
 )
 
 func TestReplay_ReadWriteFile(t *testing.T) {
-	r, err := NewReplayFromFile("data/replay_test.osr")
+	r, err := NewReplayFromFile("test_replays/replay_test.osr")
 	if err != nil {
 		t.Error(err)
 	}
@@ -20,10 +20,10 @@ func TestReplay_ReadWriteFile(t *testing.T) {
 		t.Error(err)
 	}
 	if len(de) > 0 {
-		t.Logf("Replay data successfully decompressed. Lenght %d", len(de))
+		t.Logf("Replay test_replays successfully decompressed. Lenght %d", len(de))
 	}
 	r.ReplayData = de.Compress()
-	err = r.WriteToFile("data/replay_write_test.osr")
+	err = r.WriteToFile("test_replays/replay_write_test.osr")
 	if err != nil {
 		t.Error(err)
 	} else {

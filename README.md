@@ -39,7 +39,7 @@ import (
 
 func main() {
 	r := goosr.NewReplay()
-	data := []byte{} // Some data in binary
+	data := []byte{} // Some test_replays in binary
 	err := r.Unmarshal(data)
 	if err != nil {
 		panic(err)
@@ -62,7 +62,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	r.CountMiss = 1 // Change some data from parsed replay
+	r.CountMiss = 1 // Change some test_replays from parsed replay
 	err = r.WriteToFile("replay.osr")
 	if err != nil {
 		panic(err)
@@ -84,7 +84,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	r.CountMiss = 1 // Change some data from parsed replay
+	r.CountMiss = 1 // Change some test_replays from parsed replay
 	b, err := r.Marshal()
 	if err != nil {
 		panic(err)
